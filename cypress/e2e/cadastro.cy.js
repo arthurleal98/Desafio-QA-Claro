@@ -1,7 +1,6 @@
-//Testes no login no site https://practice.automationtesting.in/
-import LoginPage from '../page-objects/login-page.cy.js';
+import CadastroPage from '../support/pages/cadastro.page';
 
-describe('Testes na Funcionalidade Login', ()=>{
+describe('Testes na Funcionalidade Cadastro', ()=>{
     beforeEach(()=>{
         cy.visit('https://practice.automationtesting.in/')
         cy.get('#menu-icon').click()
@@ -9,41 +8,39 @@ describe('Testes na Funcionalidade Login', ()=>{
 
     })
 
-    it('Realizar login com login e senhas com valores vazios', ()=>{
-        const loginPage = new LoginPage();
+    it('Realizar cadastro com email e senha com valores vazios', ()=>{
+        const cadastroPage = new CadastroPage();
 
-        loginPage.clicarBotaoLogin( )
+        cadastroPage.clicarBotaoRegister( )
         //esperar que a mensagem de erro seja exibida
         cy.get('.woocommerce-error').should('be.visible')
         cy.get('.woocommerce-error').should('have.text', '\n\t\t\tError: Username is required.\n\t')
     })
 
-    it('Realizar login com login vazio e senha preenchida', ()=>{
-        const loginPage = new LoginPage();
+    it('Realizar cadastro com email vazio e senha preenchida', ()=>{
+        const cadastroPage = new CadastroPage();
 
-        loginPage.inserirSenha('Arthur_Leal980')
-        loginPage.clicarBotaoLogin( )
+        cadastroPage.inserirPassword('Arthur_Leal980')
+        cadastroPage.clicarBotaoRegister( )
         //esperar que a mensagem de erro seja exibida
         cy.get('.woocommerce-error').should('be.visible')
         cy.get('.woocommerce-error').should('have.text', '\n\t\t\tError: Username is required.\n\t')
     })
 
-    it('Realizar login com login preenchido e senha vazia', ()=>{
-        const loginPage = new LoginPage();
+    it('Realizar cadastro com email preenchido e senha vazia', ()=>{
+        const cadastroPage = new CadastroPage();
 
-        loginPage.inserirLogin('arthur2')
-        loginPage.clicarBotaoLogin( )
+        cadastroPage.inserirEmail('arthur2')
+        cadastroPage.clicarBotaoRegister( )
         //esperar que a mensagem de erro seja exibida
         cy.get('.woocommerce-error').should('be.visible')
         cy.get('.woocommerce-error').should('have.text', '\n\t\t\tError: Password is required.\n\t')
     })
 
+    it('Realizar cadastro com email e senha válidos', ()=>{
+        const cadastroPage = new CadastroPage();
 
-
-    it('Realizar login com login e senha válidos', ()=>{
-        const loginPage = new LoginPage();
-
-        loginPage.realizarLogin('arthur2', 'Arthur_Leal980')
+        cadastroPage.realizarCadastro('arthur2', 'Arthur_Leal980')
         //esperar que a mensagem de erro seja exibida
         cy.get('.woocommerce-MyAccount-content').should('be.visible')
         //preciso pegar o primeiro elemento p do .woocommerce-MyAccount-content e comparar o texto
@@ -51,16 +48,17 @@ describe('Testes na Funcionalidade Login', ()=>{
 
     })
 
-    it('Realizar login com login e senha inválidos', ()=>{
+    it('Realizar cadastro com email e senha inválidos', ()=>{
         //inserir o username 'Arthur'
-        const loginPage = new LoginPage();
+        const cadastroPage = new CadastroPage();
 
-        loginPage.realizarLogin('arthur1', 'Arthur')
+        cadastroPage.realizarCadastro('arthur1', 'Arthur')
 
         //esperar que a mensagem de erro seja exibida
         cy.get('.woocommerce-error').should('be.visible')
-        cy.get('.woocommerce-error').should('have.text', '\n\t\t\tError: The password you entered for the username Arthur is incorrect. Lost your password?\n\t')
+        cy.get('.woocommerce-error').should('have.text', '\n\t\t\tError: Please provide a valid email address.\n\t')
     })
 
-    
 })
+
+    
